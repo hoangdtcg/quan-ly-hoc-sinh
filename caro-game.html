@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caro Game</title>
+</head>
+<style>
+    td {
+        text-align: center;
+        font-size: 20px;
+        width: 50px;
+        height: 50px;  
+    }
+
+    .winnerx{
+        background-color: blue;
+        color: white;
+    }
+
+    .winnero{
+        background-color: red;
+        color: white;
+    }
+</style>
+
+<body>
+    <table id="board" border="1px" cellspacing="0px">
+
+    </table>
+
+    <script>
+        //Tạo bàn cờ
+        // let r = +prompt("Số hàng");
+        // let c = +prompt("Số cột");
+        const ROW = 20;
+        const COL = 20;
+        const PLAYER_X = "X";
+        const PLAYER_O = "O";
+        const EMPTY_VALUE ="";
+        let turn = PLAYER_X;
+        let cells = [];
+
+        creatBoard(ROW, COL);
+        function creatBoard(row, col) {
+            let html = "";
+            for (let i = 0; i < row; i++) {
+                html += "<tr>";
+                for (let j = 0; j < col; j++) {
+                    // html += "<td onclick='clickCell("+i+','+j+")'></td>"
+                    html += `<td id="cell-${i}-${j}" onclick="clickCell(${i},${j})"></td>`; //ES6
+                }
+                html += "</tr>";
+            }
+
+            document.getElementById("board").innerHTML = html;
+        }
+
+        function clickCell(i, j) {
+            // console.log(i+"-"+j);
+            let id = "cell-" + i + "-" + j;
+            let cell = document.getElementById(id);
+            if (cell.innerHTML == EMPTY_VALUE) {
+                if (turn == PLAYER_X) {
+                    cell.innerHTML = PLAYER_X;
+                    turn = PLAYER_O;
+                } else {
+                    cell.innerHTML = PLAYER_O;
+                    turn = PLAYER_X;
+                }
+            }else{
+                alert("Đánh chỗ khác đê");
+            }
+
+            // checkWin();
+            checkWin(i,j);
+        }
+
+        function checkWin(i,j) {
+            checkNgang(i,j);
+            checkDoc(i,j);
+            checkCheoPhai(i,j);
+            checkCheoTrai(i,j);
+        }
+
+        function getValueCell(i,j) {
+            if(i >= ROW || i < 0 || j >= COL || j < 0) return;
+            let id = "cell-" + i + "-" + j;
+            let cell = document.getElementById(id);
+            return cell.innerHTML;
+        }
+
+        function checkNgang(i,j) {
+            let count = 1;
+            let numRight = 1;
+            cells = [];
+            let cell = document.getElementById("cell-" + i + "-" + j);
+            cells.push(cell);
+            
+            //check sang phải, check sang phải
+            while( getValueCell(i,j) == getValueCell(i,j+numRight)){
+                let cell = document.getElementById("cell-" + i + "-" + (j+numRight));
+                cells.push(cell);
+                count++;
+                numRight++;
+                
+
+            }
+
+            //check sang trái
+            let numLeft = 1;
+            while( getValueCell(i,j) == getValueCell(i,j-numLeft)){
+                let cell = document.getElementById("cell-" + i + "-" + (j-numLeft));
+                cells.push(cell);
+                count++;
+                numLeft++;
+            
+            }
+
+            //Đếm 5 cái giống nhau thì win
+            gameOver(count);
+        }
+
+        function checkDoc(i,j) {
+            let count = 1;
+            let numTop = 1;
+            //check sang phải, check sang phải
+            while( getValueCell(i,j) == getValueCell(i-numTop,j)){
+                count++;
+                numTop++;
+
+            }
+
+            //check sang trái
+            let numBottom = 1;
+            while( getValueCell(i,j) == getValueCell(i+numBottom,j)){
+                count++;
+                numBottom++;
+
+            }
+
+            //Đếm 5 cái giống nhau thì win
+            gameOver(count);
+        }
+
+        function checkCheoPhai(i,j) {
+            let count = 1;
+            let numTop = 1;
+            //check sang phải, check sang phải
+            while( getValueCell(i,j) == getValueCell(i-numTop,j+numTop)){
+                count++;
+                numTop++;
+
+            }
+
+            //check sang trái
+            let numBottom = 1;
+            while( getValueCell(i,j) == getValueCell(i+numBottom,j-numBottom)){
+                count++;
+                numBottom++;
+
+            }
+
+            //Đếm 5 cái giống nhau thì win
+            gameOver(count);
+        }
+
+        function checkCheoTrai(i,j) {
+            let count = 1;
+            let numTop = 1;
+            //check sang phải, check sang phải
+            while( getValueCell(i,j) == getValueCell(i-numTop,j-numTop)){
+                count++;
+                numTop++;
+
+            }
+
+            //check sang trái
+            let numBottom = 1;
+            while( getValueCell(i,j) == getValueCell(i+numBottom,j+numBottom)){
+                count++;
+                numBottom++;
+
+            }
+
+            //Đếm 5 cái giống nhau thì win
+            gameOver(count);
+        }
+
+
+
+        function gameOver(count) {
+            if(count >= 5){
+                fillCellWin(cells);
+                alert(turn + " lose!");
+            }
+        }
+
+        function fillCellWin(cells) {
+            console.log(cells);
+            let color = (turn == PLAYER_X ? "winnero" : "winnerx");
+            for(let i = 0; i < cells.length;i++){
+                cells[i].classList.add(color);
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

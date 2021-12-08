@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .student {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+
+    #student-age {
+        color: grey;
+        font-size: 22px;
+    }
+
+    .student button {
+        border: none;
+        outline: 0;
+        padding: 12px;
+        color: white;
+        background-color: #000;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .student button:hover {
+        opacity: 0.7;
+    }
+</style>
+
+<body>
+    <button onclick="showAddStudent()">Thêm học sinh</button>
+    <form id="formAdd" style="display: none;">
+        <input type="text" id="name" placeholder="Tên học sinh">
+        <input type="number" id="age" placeholder="Tuổi học sinh">
+        <input type="text" id="address" placeholder="Địa chỉ học sinh">
+        <input type="text" id="image" placeholder="Ảnh học sinh">
+        <button type="button" onclick="addStudent()">Thêm</button>
+        <button type="button" onclick="hideAddStudent()">Thoát</button>
+
+    </form>
+
+    <table border="1px">
+        <thead>
+            <th>STT</th>
+            <th>Name</th>
+            <th colspan="3">Action</th>
+        </thead>
+        <tbody id="student-list">
+
+        </tbody>
+    </table>
+
+    <div id="info" style="display: none;">
+        <h2 style="text-align:center">Thông tin học sinh</h2>
+
+        <div class="student">
+            <img id="student-image" src="avt.png" alt="Avatar" style="width:100%">
+            <h1 id="student-name"></h1>
+            <p id="student-age"></p>
+            <p id="student-address"></p>
+            <p><button onclick="closeInfo()">Đóng</button></p>
+        </div>
+    </div>
+    
+    <script>
+        let students = loadData();
+
+        function showInfo(index) {
+            document.getElementById("info").style.display = "block";
+            if (index < students.length) {
+                // alert(students[index]);
+                document.getElementById("student-name").innerHTML = students[index][0];
+                document.getElementById("student-age").innerHTML = students[index][1];
+                document.getElementById("student-address").innerHTML = students[index][2];
+                document.getElementById("student-image").src = students[index][3];
+            } else {
+                alert("Không có học sinh này");
+            }
+
+        }
+
+        function deleteStudent(index) {
+            students.splice(index,1);
+            saveData();
+            displayAll();
+        }
+
+        function updateStudent(index) {
+            let name = prompt("Nhập tên",students[index][0]);
+            let age = prompt("Nhập tuổi",students[index][1]);
+            let address = prompt("Nhập địa",students[index][2]);
+            let image = prompt("Nhập link ảnh",students[index][3]);
+
+            students[index] = [name, age, address, image];
+            saveData();
+            displayAll();
+            
+        }
+        // let index = +prompt("Nhập vị trí của học sinh");
+        // showInfo(index);
+
+        function displayAll() {
+            let html = "";
+            for(let i = 0; i < students.length; i++){
+                html+="<tr>";
+                html+="<td>" + (i+1) + "</td>";
+                html+="<td>" +students[i][0]+ "</td>";
+                html+="<td>" +"<button onclick=showInfo("+i+")>Chi tiết</button>"+ "</td>";
+                html+="<td>" +"<button onclick=updateStudent("+i+")>Cập nhật</button>"+ "</td>";
+                html+="<td>" +"<button onclick=deleteStudent("+i+")>Xóa</button>"+ "</td>";
+                html+="</tr>";
+            }
+            
+            document.getElementById("student-list").innerHTML = html;
+
+        }
+
+        function closeInfo() {
+            document.getElementById("info").style.display = "none";
+        }
+
+        function showAddStudent() {
+            document.getElementById("formAdd").style.display ="block";
+        }
+
+        function hideAddStudent() {
+            document.getElementById("formAdd").style.display ="none";
+        }
+
+        function resetAddStudent() {
+            document.getElementById("formAdd").reset();
+        }
+
+
+
+        function addStudent() {
+            // let name = prompt("Nhập tên","abc");
+            // let age = prompt("Nhập tuổi");
+            // let address = prompt("Nhập địa");
+            // let image = prompt("Nhập link ảnh");
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let address = document.getElementById("address").value;
+            let image = document.getElementById("image").value;
+
+            let student = [name, age, address, image];
+            students.unshift(student);
+            saveData();
+            displayAll();
+            resetAddStudent();
+        }
+
+        displayAll();
+
+        function saveData() {
+            let data = JSON.stringify(students);
+            localStorage.setItem("students", data)
+        }
+
+        function loadData() {
+            if(localStorage.hasOwnProperty("students")){
+                let data = localStorage.getItem("students");
+                let arrData = JSON.parse(data);
+                return arrData;
+            }else{
+                return [];
+            }
+        }
+    </script>
+</body>
+
+</html>

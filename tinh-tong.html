@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let a = 5;
+        // let b = 4;
+        let c = 10;
+        const d = 9;
+        // var d = 10;
+        //Khai báo hàm
+        function plus(a, b) {
+            
+            let sum = a + b;
+            // return; //Đây là câu lệnh thoát khỏi hàm
+            // console.log("Tổng là " + sum);
+            return sum; //kết thúc hàm + đem theo giá trị hoặc không;
+            
+        }
+
+        function sub(a,b) {
+            let s = a - b + d;
+            console.log(s);
+        }
+
+        
+
+
+        //Sử dụng hàm
+        plus(9,5); //14
+        plus(2,5); //7
+        plus(3,4);
+        plus(1,2);
+
+        sub(5,3);
+        document.write(plus("Hello", " Word"));
+        let tong = plus(9,5) + plus(1,2); //14 + 3
+        // console.log(tong);
+        // document.write(tong);
+        // alert(tong);
+
+        let tong2 = plus(plus(1,3),plus(5,6)); //plus(4,11)
+        console.log(tong2);
+
+
+        
+    </script>
+</body>
+</html>

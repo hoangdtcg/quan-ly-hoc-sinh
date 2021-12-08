@@ -1,0 +1,40 @@
+B1 - Cho đồ vào máy giặt
+B2 - Đổ nước giặt - nước xả
+B3 - Chọn chế độ
+B4 - Chờ đợi (Những bước trong hàm)
+B5 - Lấy quần áo ra đi phơi
+
+- Input: Quần áo bẩn
+- Máy giặt (Hàm)
+- Output: Quần áo sạch
+
+- Một hàm chỉ thực hiện 1 nhiệm vụ
+- Tập hợp các câu lệnh
+
+() : Thực thi
+{} : Khối lệnh - scope
+
+function ten-ham(a, b){ // a, b là tham số - parameter - param
+    //Những câu lệnh - statements
+}
+
+Tham số là biến của hàm (biến chỉ được dùng trong hàm)
+
+ten-ham(3,4) // 3,4 là đối số - argument - arg
+
+Đối số là giá trị thực tế của a và b khi mình gọi hàm
+
+- Hàm.
+- Tham số.
+- Đối số.
+- Return.
+
+
+Thực hành: Các bước làm game cờ caro
+B1 - Tạo bàn cờ - Table bảng cửu chương
+B2 - Click X,O
+B3 - Check Win 
+Sau mỗi lần đánh chúng ta cần phải check win
+
+Tham trị: chỉ sử dụng giá trị và không làm thay đổi giá trị của biến. kiểu dữ liệu nguyên thủy 
+Tham chiếu: thay đổi giá trị của biến. array hoặc object
